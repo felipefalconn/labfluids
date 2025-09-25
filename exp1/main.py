@@ -2,6 +2,9 @@
 
 import CoolProp.CoolProp as CP
 from math import pi, e
+import matplotlib.pyplot as plt
+from scipy import stats
+import numpy as np
 
 tube_diameter=74.7/1000               # Tubulation diameter [m]
 tubulation_diameter=47.3/1000         # Orifice plate diameter [m]
@@ -22,7 +25,7 @@ data = {
     "30": [55.5, 14.5],
     "45": [123.5, 35.5],
     "60": [222.5, 65.5]
-} # Data: {Frequency: (Delta h for pressure difference, Delta h for static pressure) in [m]}
+} # Data: {Frequency: (Delta h for pressure difference, Delta h for static pressure) in [mm]}
 
 for d in data: # Delta h in meter to delta P in Pa
     data[d][0]*=water_rho*g/1000 # Conversion of water milimiter pressure to Pa
@@ -31,6 +34,8 @@ for d in data: # Delta h in meter to delta P in Pa
 L1=1
 L2 = 0.47
 M2=2*L2/(1-betha)
+results_x=[]
+results_y=[]
 for element in data:
     dp=data[element][0]
     error=0.01        
@@ -46,9 +51,27 @@ for element in data:
         Re=Re_new
         i+=1
     volumetric_rate=m*3600/air_rho             # Volumetric flow rate [m^3/h]
-    data[element].append({"Results": {"Volumetric Flow Rate": volumetric_rate, "Massic Flow Rate": m, "Re": Re, "Iterations": i, "C": C, "Betha": betha}})
-
+    data[element].append({"Results": {"Volumetric Flow Rate": volumetric_rate, "Massic Flow Rate": m, "Re": Re, "Iterations": i, "C": C}})
+    results_x.append(int(element))
+    results_y.append(volumetric_rate)
+"""
 for e in data:
-    print(f'Frequency: {e}Hz — Data: {data[e]}')
+    print(f'Frequency: {e}Hz — Data: {data[e]}')"""
 
-print(f'\n Air density: {air_rho}')
+array_x=np.array(results_x)
+array_y=np.array(results_y)
+
+slope, intercept, r_value, p_value, std_err = stats.linregress(array_x, array_y)
+y_regress = slope*array_x + intercept
+
+plt.figure(figsize=(10, 6))
+tick_positions = np.arange(0, 90, 5)
+plt.xticks(tick_positions)
+plt.scatter(array_x, array_y, label="Dados originais")
+plt.plot(array_x, y_regress, color='blue', label=f"Regressão\n$y = {slope:.2f}x + {intercept:.2f}$")
+plt.title("Vazão volumétrica em função da frequência")
+plt.xlabel("Frequência (Hz)")
+plt.ylabel("Vazão volumétrica [m^3/h]")
+plt.legend()
+plt.grid(False)
+plt.show()
