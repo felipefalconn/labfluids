@@ -50,5 +50,3 @@ for element in data:
 
 for e in data:
     print(f'Frequency: {e}Hz — Data: {data[e]}')
-
-print(f'\n Air density: {air_rho}')
