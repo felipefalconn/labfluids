@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 
-<<<<<<< HEAD
-import CoolProp.CoolProp as CP # type: ignore
-from math import pi, e
-import matplotlib.pyplot as plt # type: ignore
-from scipy import stats # type: ignore
-import numpy as np # type: ignore
-=======
 import CoolProp.CoolProp as CP
 from math import pi, e, sqrt
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
->>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 
 tube_diameter=74.7/1000               # Tubulation diameter [m]
 tubulation_diameter=47.3/1000         # Orifice plate diameter [m]
@@ -62,10 +54,6 @@ for element in data:
     data[element].append({"Results": {"Volumetric Flow Rate": volumetric_rate, "Massic Flow Rate": massic_flow_rate, "Re": Re, "Iterations": i, "C": C}})
     results_x.append(int(element))
     results_y.append(volumetric_rate)
-<<<<<<< HEAD
-=======
-    print(i)
->>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 
 array_x=np.array(results_x)
 array_y=np.array(results_y)
@@ -78,13 +66,8 @@ y_regress = slope*array_x + intercept
 plt.figure(figsize=(10, 6))
 tick_positions = np.arange(15, 65, 15)
 plt.xticks(tick_positions)
-<<<<<<< HEAD
 plt.scatter(array_x, array_y, label="Dados originais", color='black', marker='s')
 plt.plot(array_x, y_regress, color='blue', label=f"Regressão\n$y = {slope:.2f}+-{std_err:.2f}x {intercept:.2f} +- {intercept_stderr:.2f}$")
-=======
-plt.scatter(array_x, array_y, label="Dados originais", color='blue', marker='s', zorder=3)
-plt.plot(array_x, y_regress, color='black', label=f"Regressão\n$y = {slope:.2f}x {intercept:.2f}$\n r^2 = {pow(r_value,2):.4f}")
->>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 plt.title("Vazão volumétrica em função da frequência")
 plt.xlabel("Frequência (Hz)")
 plt.ylabel("Vazão volumétrica [m^3/h]")
