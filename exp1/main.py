@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 import CoolProp.CoolProp as CP # type: ignore
 from math import pi, e
 import matplotlib.pyplot as plt # type: ignore
 from scipy import stats # type: ignore
 import numpy as np # type: ignore
+=======
+import CoolProp.CoolProp as CP
+from math import pi, e, sqrt
+import matplotlib.pyplot as plt
+from scipy import stats
+import numpy as np
+>>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 
 tube_diameter=74.7/1000               # Tubulation diameter [m]
 tubulation_diameter=47.3/1000         # Orifice plate diameter [m]
@@ -45,15 +53,19 @@ for element in data:
     while delta_re>error:
         A=pow(19e3*betha/Re, 0.8)
         C=0.5961 + 0.026*pow(betha, 2)-0.216*pow(betha, 8)+0.000521*pow(pow(10, 6)*betha/Re, 0.7) + (0.0188+0.0063*A)*pow(pow(10,6)/Re, 0.3)*pow(betha, 3.5)+(0.043+0.080*pow(e,-10*L1) - 0.0123*pow(e, -7*L1))*(1-0.11*A)*(pow(betha,4)/(1-pow(betha,4))) - 0.031*(M2 - 0.2*pow(M2, 1.1))*pow(betha, 1.3)
-        m=(C*tubulation_area *(2*air_rho*dp)**(1/2))/((1-betha**4)**(1/2))
-        Re_new=4*m/(pi*tube_diameter*air_mu)
+        massic_flow_rate=(C*tubulation_area*(2*air_rho*dp)**(1/2))/((1-betha**4)**(1/2))
+        Re_new=4*massic_flow_rate/(pi*tube_diameter*air_mu)
         delta_re=abs(Re_new-Re)
         Re=Re_new
         i+=1
-    volumetric_rate=m*3600/air_rho             # Volumetric flow rate [m^3/h]
-    data[element].append({"Results": {"Volumetric Flow Rate": volumetric_rate, "Massic Flow Rate": m, "Re": Re, "Iterations": i, "C": C}})
+    volumetric_rate=massic_flow_rate*3600/air_rho             # Volumetric flow rate [m^3/h]
+    data[element].append({"Results": {"Volumetric Flow Rate": volumetric_rate, "Massic Flow Rate": massic_flow_rate, "Re": Re, "Iterations": i, "C": C}})
     results_x.append(int(element))
     results_y.append(volumetric_rate)
+<<<<<<< HEAD
+=======
+    print(i)
+>>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 
 array_x=np.array(results_x)
 array_y=np.array(results_y)
@@ -64,10 +76,15 @@ intercept_stderr = results.intercept_stderr
 y_regress = slope*array_x + intercept
 
 plt.figure(figsize=(10, 6))
-tick_positions = np.arange(0, 90, 5)
+tick_positions = np.arange(15, 65, 15)
 plt.xticks(tick_positions)
+<<<<<<< HEAD
 plt.scatter(array_x, array_y, label="Dados originais", color='black', marker='s')
 plt.plot(array_x, y_regress, color='blue', label=f"Regressão\n$y = {slope:.2f}+-{std_err:.2f}x {intercept:.2f} +- {intercept_stderr:.2f}$")
+=======
+plt.scatter(array_x, array_y, label="Dados originais", color='blue', marker='s', zorder=3)
+plt.plot(array_x, y_regress, color='black', label=f"Regressão\n$y = {slope:.2f}x {intercept:.2f}$\n r^2 = {pow(r_value,2):.4f}")
+>>>>>>> 5a8cc0174aee791fa7d4af90ae2e902f58496628
 plt.title("Vazão volumétrica em função da frequência")
 plt.xlabel("Frequência (Hz)")
 plt.ylabel("Vazão volumétrica [m^3/h]")
