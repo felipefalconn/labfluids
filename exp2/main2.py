@@ -35,6 +35,9 @@ while conv>erro:
     conv=abs(V_new-V)
     V=V_new
     iter+=1
-massic_flow = air_rho*V*pow(tube_diameter, 2)*3600/4
+massic_flow = air_rho*V*pi*pow(tube_diameter, 2)*3600/4
+print(f"Rho={air_rho}")
+print(f"Air viscosity={mu}")
+print(f"Re={Re} m/s")
 print(f"Speed={V:.3f} m/s")
 print(f"Massic flow rate {massic_flow} kg/h")
