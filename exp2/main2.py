@@ -21,12 +21,12 @@ Fe=air_rho*g*Vol
 Fp=rho_ball*g*Vol                            
 Fa=Fp-Fe                                    
 
-erro=0.01        
+erro=0.001        
 conv=100        
 V=100          
 iter=0
 gamma = ball_diameter/tube_diameter
-f_correction = 1/((1-pow(gamma, 2))*pow((1-0.5*pow(gamma, 2)), 0.5))
+f_correction = 6.58 #1/((1-pow(gamma, 2))*pow((1-0.5*pow(gamma, 2)), 0.5))
 while conv>erro:
     Re=air_rho*V*ball_diameter/mu
     C=(24/Re)+((2.6*(Re/5))/(1+(Re/5)**1.52))+((0.411*(Re/263000)**(-7.94))/(1+(Re/263000)**(-8)))+((0.25*(Re/1000000))/(1+(Re/1000000)))
@@ -40,4 +40,5 @@ print(f"Rho={air_rho}")
 print(f"Air viscosity={mu}")
 print(f"Re={Re} m/s")
 print(f"Speed={V:.3f} m/s")
-print(f"Massic flow rate {massic_flow} kg/h")
+print(f"f-correction: {f_correction}")
+print(f"Massic flow rate: {massic_flow} kg/h")
