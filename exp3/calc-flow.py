@@ -50,7 +50,7 @@ for element in data:
             delta_re=abs(Re_new-Re)
             Re=Re_new
             i+=1
-        volumetric_rate=massic_flow_rate*3600/air_rho             # Volumetric flow rate [m^3/h]
+        volumetric_rate=massic_flow_rate/air_rho             # Volumetric flow rate [m^3/s]
         if float(element) not in results:
             results[float(element)] = [volumetric_rate]
         else: results[float(element)].append(volumetric_rate)
