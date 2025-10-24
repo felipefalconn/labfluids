@@ -25,7 +25,7 @@ data = { # Frequency: [[Q, H]]
         [0.06829421441945342, 214]
     ]
 }
-rateux = {'60': []}
+rateaux = {'60': []}
 
 for e in data:
     for num in range(0, len(data[e])):
@@ -37,18 +37,24 @@ for e in data:
             Qnew = 2 * data[e][num][0]
             Hnew = pow(2, 2) * data[e][num][1]
             Nnew = pow(2, 3) * N_calc
-            rateux['60'].append([Qnew, Hnew, Nnew])
+            rateaux['60'].append([Qnew, Hnew, Nnew])
         else:
             data[e][num].append(water_rho * g * data[e][num][0] * data[e][num][1] / 0.311)
 
 df_30 = pd.DataFrame(data['30'], columns=['Q [m^3/s]', 'H [m]', 'N [W]'])
 df_60 = pd.DataFrame(data['60'], columns=['Q [m^3/s]', 'H [m]', 'N [W]'])
-df_60rateux = pd.DataFrame(rateux['60'], columns=['Q [m^3/s]', 'H [m]', 'N [W]'])
+df_60rateaux = pd.DataFrame(rateaux['60'], columns=['Q [m^3/s]', 'H [m]', 'N [W]'])
 
 df_30.sort_values(by='Q [m^3/s]', ascending=True, inplace=True)
 df_60.sort_values(by='Q [m^3/s]', ascending=True, inplace=True)
-df_60rateux.sort_values(by='Q [m^3/s]', ascending=True, inplace=True)
+df_60rateaux.sort_values(by='Q [m^3/s]', ascending=True, inplace=True)
 
+print('Frequency: 30Hz')
+print(df_30)
+print('Frequency: 60Hz')
+print(df_60)
+print('Frequency: 60Hz (Rateaux)')
+print(df_60rateaux)
 def suavizar_curvas(df):
     """Aplica interpolação Cubic Spline para suavizar H e N em relação a Q."""
     Q_orig = df['Q [m^3/s]'].values
@@ -67,8 +73,7 @@ def suavizar_curvas(df):
 
 Q30s, H30s, N30s = suavizar_curvas(df_30)
 Q60s, H60s, N60s = suavizar_curvas(df_60)
-Qrateuxs, Hrateuxs, Nrateuxs = suavizar_curvas(df_60rateux)
-
+Qrateauxs, Hrateauxs, Nrateauxs = suavizar_curvas(df_60rateaux)
 
 plt.style.use('seaborn-v0_8-whitegrid') 
 fig, axes = plt.subplots(1, 2, figsize=(14, 6))
@@ -85,8 +90,8 @@ ax1.plot(df_30['Q [m^3/s]'], df_30['H [m]'], 'o', color=colors[0], markersize=ma
 ax1.plot(Q60s, H60s, linestyle=linestyles[0], color=colors[1], label='60 Hz', linewidth=2.5)
 ax1.plot(df_60['Q [m^3/s]'], df_60['H [m]'], 's', color=colors[1], markersize=marker_size) 
 
-ax1.plot(Qrateuxs, Hrateuxs, linestyle=linestyles[1], color=colors[3], label='60 Hz - Rateux', linewidth=2.5, alpha=0.7)
-ax1.plot(df_60rateux['Q [m^3/s]'], df_60rateux['H [m]'], 'D', color=colors[3], markersize=marker_size, alpha=0.7) 
+ax1.plot(Qrateauxs, Hrateauxs, linestyle=linestyles[1], color=colors[3], label='60 Hz - Rateaux', linewidth=2.5, alpha=0.7)
+ax1.plot(df_60rateaux['Q [m^3/s]'], df_60rateaux['H [m]'], 'D', color=colors[3], markersize=marker_size, alpha=0.7) 
 
 ax1.set_title('Curva de Desempenho: Carga vs. Vazão', fontsize=14, fontweight='bold')
 ax1.set_xlabel('Vazão $Q$ [$m^3/s$]', fontsize=12)
@@ -102,8 +107,8 @@ ax2.plot(df_30['Q [m^3/s]'], df_30['N [W]'], 'o', color=colors[0], markersize=ma
 ax2.plot(Q60s, N60s, linestyle=linestyles[0], color=colors[1], label='60 Hz', linewidth=2.5)
 ax2.plot(df_60['Q [m^3/s]'], df_60['N [W]'], 's', color=colors[1], markersize=marker_size)
 
-ax2.plot(Qrateuxs, Nrateuxs, linestyle=linestyles[1], color=colors[3], label='60 Hz - Rateux', linewidth=2.5, alpha=0.7)
-ax2.plot(df_60rateux['Q [m^3/s]'], df_60rateux['N [W]'], 'D', color=colors[3], markersize=marker_size, alpha=0.7)
+ax2.plot(Qrateauxs, Nrateauxs, linestyle=linestyles[1], color=colors[3], label='60 Hz - Rateaux', linewidth=2.5, alpha=0.7)
+ax2.plot(df_60rateaux['Q [m^3/s]'], df_60rateaux['N [W]'], 'D', color=colors[3], markersize=marker_size, alpha=0.7)
 
 ax2.set_title('Curva de Desempenho: Potência vs. Vazão', fontsize=14, fontweight='bold')
 ax2.set_xlabel('Vazão $Q$ [$m^3/s$]', fontsize=12)
