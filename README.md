@@ -1,22 +1,33 @@
 # labfluids
-Codes used to obtain data and technical resolution of experiments at the Fluids Laboratory of the Federal University of Minas Gerais, in 2025.
 
-<img width="1000" height="600" alt="Figure_1" src="https://github.com/user-attachments/assets/a2d0aff4-0cae-4b1f-a03f-3c816e4faa20" />
+Codes used to obtain data and perform technical analysis for experiments carried out at the Fluids Laboratory of the Federal University of Minas Gerais (UFMG), in 2025.
 
-## How to install
+<img width="1360" height="655" alt="Figure_2" src="https://github.com/user-attachments/assets/764e3697-b94e-4d03-bb03-3ea985aef828" />
 
-```
-git clone git@github.com:felipefalconn/labfluids.git
-```
-```
-cd labfluids
-```
-```
-pip install -r requirements.txt
-```
+---
 
-Then run:
+## Features
 
-```
-python3 exp1/main.py
-```
+- Data processing for laboratory experiments in Fluid Mechanics  
+- Computation of manometric head, uncertainties and performance curves  
+- Plotting of \(H \times Q\) curves (head vs. flow rate) for different pump configurations  
+- Scripts written in Python, organized per experiment
+
+The repository is aimed at:
+- Supporting lab reports
+- Ensuring reproducible calculations
+- Providing a clean reference implementation for future semesters
+
+---
+
+## Repository structure
+
+The code is organized by experiment. A typical structure is:
+
+```text
+labfluids/
+├── exp1/          # Experiment 1 (e.g. pumps in series/parallel)
+│   ├── main.py    # Main script to run the analysis
+│   └── ...        # Auxiliary modules, data files, figures, etc.
+├── requirements.txt
+└── README.md
