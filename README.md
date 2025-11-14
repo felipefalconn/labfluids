@@ -10,7 +10,7 @@ Codes used to obtain data and perform technical analysis for experiments carried
 
 - Data processing for laboratory experiments in Fluid Mechanics  
 - Computation of manometric head, uncertainties and performance curves  
-- Plotting of \(H \times Q\) curves (head vs. flow rate) for different pump configurations  
+- Plotting of H x Q curves for different pump configurations  
 - Scripts written in Python, organized per experiment
 
 The repository is aimed at:
